@@ -12,8 +12,8 @@
                 <td>请选择系统</td>
                 <td>
                     <select name="system">
-                        <option value="hftService">好房拓service</option>
-                        <option value="xfcrm">好房经济系统</option>
+                        <option value="hftService">新飞拓service</option>
+                        <option value="xfcrm">新飞经济系统</option>
                         <option value="jigouService">机构service</option>
                     </select>
                 </td>
