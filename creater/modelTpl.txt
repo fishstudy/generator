@@ -1,0 +1,29 @@
+<?php namespace App\{{$service}}\Models{{$directory}};
+
+use App\Orm;
+use App\{{$service}}\Models\SoftDeletes;
+use App\{{$service}}\Library\Enum\DatabaseEnum;
+
+/*
+ * {{$filename}}的Model类
+ *
+ */
+class {{$filename}} extends Orm
+{
+    use SoftDeletes;
+    //默认的链接DB数据库
+    protected $connection = DatabaseEnum::USER_DB;
+    //表名
+    protected $table      = '{{$table}}';
+    //所有字段
+    protected $columns    = [
+        {{$columns}}
+    ];
+    //可填充字段
+    protected $fillable   = [
+        {{$fillable}}
+    ];
+
+    //设置删除时间字段
+    const DELETED_AT = null;
+}

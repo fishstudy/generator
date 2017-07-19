@@ -1,0 +1,29 @@
+<?php namespace App\Jigou\Models\{{$dbDir}};
+
+use App\Orm;
+use App\Jigou\Models\SoftDeletes;
+use App\Jigou\Library\Enum\DatabaseEnum;
+
+/*
+ * {{$filename}}({{$sTableCommet}})的Model类
+ *
+ */
+class {{$filename}} extends Orm
+{
+    use SoftDeletes;
+    //默认的链接DB数据库
+    protected $connection = '{{$dbname}}';
+    //表名
+    protected $table      = '{{$table}}';
+    //所有字段
+    protected $columns    = [
+{{$fieldDesc}}
+    ];
+    //可填充字段
+    protected $fillable   = [
+{{$fieldDesc}}
+    ];
+
+    //设置删除时间字段
+    const DELETED_AT = null;
+}

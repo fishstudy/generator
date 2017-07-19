@@ -1,0 +1,141 @@
+<?php
+namespace App\Jigou\Modules\Gold;
+
+use App\{{$service}}\Modules\Base as BaseBModel;
+use App\{{$service}}\Models\CompanyGold\App\Jigou\Models\Zt as ;
+
+/**
+* 业务模型 相当于logic 层
+*/
+class CompanyGold extends BaseBModel
+{
+    /**
+     * 查询获取分页的数据(大数据分页，性能优化)
+     * @param array $aCondition 条件
+     * @param int $iPage 当前页
+     * @param int $iPerPage 每页多少条
+     * @param array $aOrder 主要排序条件
+     * @param int $iLastID 当前页最后一条数据的ID
+     * @return array
+     */
+    public static function getList($aCondition = [], $iPage = 1, $iPerPage = 10, $aOrder = [], $iLastID = 0)
+    {
+        return ::spList($aCondition, $iPage, $iPerPage, $aOrder, $iLastID);
+    }
+
+    /**
+     * 获取单条数据，根据主键
+     * @param $id
+     *
+     * @return array
+     */
+    public static function getByID($id, $sFormat = self::FORMAT_ARRAY)
+    {
+        $oResult = ::spGetByID($id);
+        if ($sFormat == self::FORMAT_OBJECT) {
+            return $oResult;
+        } else {
+            return $oResult ? $oResult->toArray() : [];
+        }
+    }
+
+    /**
+     * 获取单条数据，根据筛选条件
+     * @param array $aCondition
+     * @return array
+     */
+    public static function getOne($aCondition = [], $sFormat = self::FORMAT_ARRAY)
+    {
+        $oResult = ::spGetOne($aCondition);
+        if ($sFormat == self::FORMAT_OBJECT) {
+            return $oResult;
+        } else {
+            return $oResult ? $oResult->toArray() : [];
+        }
+    }
+
+    /**
+     * 获取所有数据，根据筛选条件
+     * @param array $aCondition
+     * @return mixed
+     */
+    public static function getAll($aCondition = [], $sFormat = self::FORMAT_ARRAY)
+    {
+        $oResult = ::spGetAll($aCondition);
+        if ($sFormat == self::FORMAT_OBJECT) {
+            return $oResult;
+        } else {
+            return $oResult ? $oResult->toArray() : [];
+        }
+    }
+
+    /**
+     * 获取条数，根据筛选条件
+     * @param array $aCondition
+     * @return int
+     */
+    public static function getCount($aCondition = [])
+    {
+        return ::spGetCount($aCondition);
+    }
+
+    /**
+     * 添加数据
+     * @param array $aData
+     * @return array
+     */
+    public static function create($aData = [])
+    {
+        return ::spCreate($aData);
+    }
+
+    /**
+     * 添加数据
+     * @param array $aData
+     * @return array
+     */
+    public static function add($aData = [])
+    {
+        return ::spAdd($aData);
+    }
+
+    /**
+     * 单条数据更新，根据主键
+     * @param $id
+     * @param array $aData
+     * @return bool|mixed
+     */
+    public static function updateByID($id, $aData = [])
+    {
+        if (empty($aData)) {
+            return false;
+        }
+
+        return ::spUpdateByID($id, $aData);
+    }
+
+    /**
+     * 批量数据更新，根据where条件
+     * @param array $aCondition
+     * @param array $aData
+     * @return bool
+     */
+    public static function update($aCondition = [], $aData = [])
+    {
+        if (empty($aCondition) || empty($aData)) {
+            return false;
+        }
+
+        return ::spUpdate($aCondition, $aData);
+    }
+
+    /**
+     * 单条数据删除，根据主键
+     * @param $id
+     * @return bool
+     */
+    public static function deleteByID($id)
+    {
+        return ::find($id)->delete()->trashed() ? true : false;
+    }
+}

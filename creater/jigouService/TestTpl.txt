@@ -1,0 +1,151 @@
+<?php
+namespace {{$nameSpace}};
+
+use Paf\Test\Lsf\TestCaseBase;
+
+
+/**
+ * #####phpunit单元测试用例如下:
+ * ``````````````````
+ * 1.获取列表                      
+ * 2.新增                          
+ * 3.根据主键id获取详情            
+ * 4.根据主键ids批量获取详情       
+ * 5.根据主键id编辑信息            
+ * 6.根据主键id删除信息            
+ * 7.根据主键ids批量删除房源集信息 
+ */
+
+class {{$className}} extends TestCaseBase
+{
+
+    /**
+     * 获取列表
+     *
+     * 场景1 列表获取房源成功
+     *
+     * 场景2 列表获取房源失败
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @update date {{$day}}
+     * @example phpunit --filter {{$className}}::TestGetList
+     *
+     * ``````````````````
+     */
+    public function TestGetList()
+    {
+        $this->requireFixture( [
+            'database/{{$dbname}}/t_{{$table}}.php',
+            ]);
+        #场景1 批量获取成功
+        $aParam     = []; 
+        $iPage      = 1;
+        $iPerPage   = 10;
+        $order      = [];
+        $iLastID    = 0;
+        $res = $this->invoke('{{$nameSpace}}\{{$className}}'.'getList', $aParam, $iPage, $iPerPage, $order, $iLastID);
+        $this->assertNotEmpty($res['data']);
+
+         #场景2 批量获取失败
+        $aParam     = []; 
+        $iPage      = 1;
+        $iPerPage   = 10;
+        $order      = [];
+        $iLastID    = 0;
+        $res = $this->invoke('{{$nameSpace}}\{{$className}}'.'getList', $aParam, $iPage, $iPerPage, $order, $iLastID);
+        $this->assertNotEmpty($res['data']);
+    }
+
+    /**
+     * 新增 
+     *
+     * 场景1 添加成功
+     *
+     * 场景2 添加失败
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @update date {{$day}}
+     * @example phpunit --filter {{$className}}::TestAdd
+     *
+     * ``````````````````
+     */
+    public function TestAdd()
+    {
+        $this->requireFixture( [
+            'database/{{$dbname}}/t_{{$table}}.php',
+            ]);
+        #场景1 添加成功
+        $aData = [
+{{$sInit}}
+        ];
+        $res = $this->invoke('{{$nameSpace}}\{{$className}}'.'add', $aData);
+        $this->assertNotEmpty($res['data']);
+         #场景2 添加失败
+        $aData = [
+{{$sInit}}
+        ];
+        $res = $this->invoke('{{$nameSpace}}\{{$className}}'.'add', $aData);
+        $this->assertNotEmpty($res['data']);
+    }
+
+    /**
+     * 编辑
+     *
+     * 场景1 编辑成功
+     *
+     * 场景2 编辑失败
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @update date {{$day}}
+     * @example phpunit --filter {{$className}}::TestEdit
+     *
+     * ``````````````````
+     */
+    public function TestEdit()
+    {
+        $this->requireFixture( [
+            'database/{{$dbname}}/t_{{$table}}.php',
+            ]);
+        #场景1 编辑成功
+        $aData = [
+{{$sInit}}
+        ];
+        $res = $this->invoke('{{$nameSpace}}\{{$className}}'.'edit', $aData);
+        $this->assertNotEmpty($res['data']);
+         #场景2 编辑失败
+        $aData = [
+{{$sInit}}
+        ];
+        $res = $this->invoke('{{$nameSpace}}\{{$className}}'.'edit', $aData);
+        $this->assertNotEmpty($res['data']);
+    }
+
+    /**
+     * 详情
+     *
+     * 场景1 详情成功
+     *
+     * 场景2 详情失败
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @update date {{$day}}
+     * @example phpunit --filter {{$className}}::TestDetail
+     *
+     * ``````````````````
+     */
+    public function TestDetail()
+    {
+        $this->requireFixture( [
+            'database/{{$dbname}}/t_{{$table}}.php',
+            ]);
+        #场景1 编辑成功
+        $iAutoID = 1;
+        $res = $this->invoke('{{$nameSpace}}\{{$className}}'.'detail', $iAutoID);
+        $this->assertNotEmpty($res['data']);
+         #场景2 编辑失败
+         $iAutoID = 'serwsde';
+        $res = $this->invoke('{{$nameSpace}}\{{$className}}'.'detail', $iAutoID);
+        $this->assertNotEmpty($res['data']);
+    }
+
+}

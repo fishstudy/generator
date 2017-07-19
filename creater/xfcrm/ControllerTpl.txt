@@ -1,0 +1,203 @@
+<?php
+namespace {{$nameSpace}};
+
+use Url, Response;
+use Illuminate\Http\Request;
+use App\Http\Helpers\Tools;
+use App\Models\CommonService;
+use App\Modules\SSOAuth as SSOAuthModule;
+use {{$bNameSpace}}\{{$bClassName}};
+/**
+ * ### 页面如下：
+ * ``````````````````
+ * 1.{{$sTableCommet}}获取列表                   --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 2.{{$sTableCommet}}新增                      --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 3.{{$sTableCommet}}编辑                      --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 4.{{$sTableCommet}}根据主键id获取详情           --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * ``````````````````
+ *
+ */
+
+class {{$className}} extends BaseController
+{
+    //列表的模板
+    protected $listsView  = 'major.pagelet';
+    //新增的模板
+    protected $addView   = 'major.pagelet';
+    //编辑的模板
+    protected $editView   = 'major.pagelet';
+    //详情的模板
+    protected $detailView = 'major.pagelet';
+
+    /**
+     * 获取列表
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * ___
+     * __页面地址__  /{{$lowSubDir}}/{{$lowFile}}/lists
+     *
+     * __请求方式__  GET
+     *
+     * __URL参数说明__
+     * ``````````````````
+     * 无参数
+     * ``````````````````
+     *
+     * @return array
+     * ``````````````````
+     * 传递给模版的php变量:
+     * [
+     *      "aFormData" =>  [       //表单数据
+     *          'sSearchAjaxUrl' => '/{{$lowSubDir}}/ajax/{{$lowFile}}/lists', //列表的ajax地址
+     *      ]
+     *      'aGlobalData' => [      //全局数据
+     *          'sTitle' => '',
+     *          'sKeyWords' => ''
+     *      ],
+     * ]
+     * ``````````````````
+     *
+     */
+
+    public function lists($aRequest)
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+        $aPermision = $this->getListPermission();
+        $aRet = {{$bClassName}}::getListFormData();
+
+        return $this->view($this->listsView, $aRet);
+    }
+
+    /**
+      * 新增
+      * ___
+      * __页面地址__  /{{$lowSubDir}}/{{$lowFile}}/add
+      *
+      * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+      *
+      * __请求方式__  GET
+      *
+      * __URL参数说明__
+      * ``````````````````
+      * - 无参数
+      * ``````````````````
+      *
+      * @return array
+      * ``````````````````
+      * 传递给模版的php变量:
+      * [
+      *      'aData' => [        //业务数据
+
+      *      ],
+      *      "aFormData" =>  [       //表单数据
+      *           //编辑页保存按钮对应的ajax接口
+      *          'sSaveAjaxUrl' => '/{{$lowSubDir}}/ajax/{{$lowFile}}/update',
+      *      ],
+      *      'aGlobalData' => [//全局数据
+      *          'sTitle' => '房源管理 > 二手房 > 房源信息维护 > 卖点编辑',
+      *          'sKeyWords' => ''
+      *      ],
+      * ]
+      * ``````````````````
+      */
+        public function add()
+        {
+            return false;   //该方法默认关闭，如需使用删除该行即可
+            $aRet = {{$bClassName}}::getAddFormData();
+
+            return $this->view($this->addView, $aReturn);
+        }
+
+
+    /**
+      * 编辑
+      * ___
+      * __页面地址__  /{{$lowSubDir}}/{{$lowFile}}/edit/{iAutoID}
+      *
+      * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+      *
+      * __请求方式__  GET
+      *
+      * __URL参数说明__
+      * ``````````````````
+      * - iAutoID integer 主键ID 必传
+      * ``````````````````
+      *
+      * @return array
+      * ``````````````````
+      * 传递给模版的php变量:
+      * [
+      *      'aData' => [        //业务数据
+
+      *      ],
+      *      "aFormData" =>  [       //表单数据
+      *           //编辑页保存按钮对应的ajax接口
+      *          'sSaveAjaxUrl' => '/{{$lowSubDir}}/ajax/{{$lowFile}}/update',
+      *      ],
+      *      'aGlobalData' => [//全局数据
+      *          'sTitle' => '房源管理 > 二手房 > 房源信息维护 > 卖点编辑',
+      *          'sKeyWords' => ''
+      *      ],
+      * ]
+      * ``````````````````
+      */
+        public function edit($iAutoID)
+        {
+            return false;   //该方法默认关闭，如需使用删除该行即可
+            $aRet = {{$bClassName}}::getEditFormData();
+
+            return $this->view($this->editView, $aReturn);
+        }
+
+    /**
+     * 详情页
+     * ___
+     * __页面地址__  /{{$lowSubDir}}/{{$lowFile}}/detail/{$iAutoID}
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * __请求方式__  GET
+     *
+     * __URL参数说明__
+     * ``````````````````
+     * - iAutoID integer 主键ID 必传
+     * ``````````````````
+     *
+     * @return array
+     * ``````````````````
+     * 传递给模版的php变量:
+     * [
+     *      'aData' => [        //业务数据
+     *          ]
+     *      ],
+     *      "aFormData" =>  [       //表单数据
+     *      ],
+     *      'aGlobalData' => [      //全局数据
+     *          'sTitle' => '',
+     *          'sKeyWords' => ''
+     *      ],
+     * ]
+     * ``````````````````
+     */
+    public function detail($iAutoID)
+    {
+       return false;   //该方法默认关闭，如需使用删除该行即可
+       $aRet = {{$bClassName}}::getDetailFormData();
+
+        return $this->view($this->detailView, $aRet);
+    }
+
+    /**
+     * 权限点是否显示
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @return array
+     */
+    protected function getListPermission(){
+        $sToken = array_get($this->aUser, 'sToken');
+        $aPermission = SSOAuthModule::getSubPermission($sToken, MenuEnum::HOUSE_AUDIT_LIST);
+        $ret = [];
+        return $ret;
+    }
+
+}

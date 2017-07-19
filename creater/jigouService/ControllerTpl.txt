@@ -1,0 +1,319 @@
+<?php
+namespace {{$nameSpace}};
+
+use App\Jigou\Controllers\Base;
+use {{$bNameSpace}} as {{$bClassName}};
+use ServiceException;
+use Log;
+
+/**
+ * #####提供接口列表如下（RPC方式调用）：
+ * ``````````````````
+ * 1.{{$sTableCommet}}获取列表                     --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 2.新增{{$sTableCommet}}                        --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 3.{{$sTableCommet}}根据主键id获取详情            --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 4.{{$sTableCommet}}根据主键ids批量获取详情        --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 5.{{$sTableCommet}}根据主键id编辑信息             --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 6.{{$sTableCommet}}根据主键id删除信息             --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 7.{{$sTableCommet}}根据主键ids批量删除房源集信息    --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * ``````````````````
+ *
+ */
+
+class {{$className}} extends Base
+{
+
+    /**
+     * 获取列表
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aParam
+     * - 数组格式
+{{$fieldDesc}}
+     * ``````````````````
+     * 可以使用的条件:'>','<','>=','<=','<>','!=','like',where,in,notin,between,notbetween,or
+     * 使用方法见下面的例子；
+     * 'iAutoID' => '1', //正常的where条件 iAutoID = 15262281953；
+     * '<'                => ['iCreateTime' => 14514717626], //代表iCreateTime<14514717626;
+     * '<>'               => ['iUserID' => 47613, 'iCreateTime' => 14514717626],//代表iUserID<>47613,iLoginTimes<>14514717626；
+     * 'like'             => ['sName' => '%aaa'],//代表sName like %aaa；
+     * 'between'          => ['iPayCenterBid' => [1, 10]],//代表 iPayCenterBid between 1 and 10；
+     * 'notin'            => ['iUserID' => [1, 2]],//代表 iUserID not in (1,2)；
+     * 'in'               => ['iUserID' => [1, 2]],//代表 iUserID in (1,2)；
+     * 'or'               => ['iUserID' => '1'],//代表 or iUserID=1
+     * ``````````````````
+     * @param int $iPage 当前页
+     * @param int $iPerPage 每页多少条
+     * @param array $order 主要按哪个字段排序:如['iAutoID'=>'desc']
+     * @param int $iLastID 当前页最后一条数据的ID
+     * @return array
+     * ``````````````````
+     * 响应结果(正常返回)：
+     * [
+     *     'code'      => '0000',
+     *     'message'   => '',
+     *     'aData'      => [             //返回搜索的创说会用户列表数据
+     *          "iTotal": 0,            //总数
+     *          "iPage": 1,             //当前页数
+     *          "iPerPage": 20,         //分页条数
+     *          "aList": [              //列表数据
+     *              {
+{{$listDesc}}
+     *              },
+     *              ……
+     *          ]
+     *      ]
+     * ]
+     * 响应结果(异常返回)：
+     * [
+     *     'code'      => 'invalid_argument',   //返回code
+     *     'message'   => '参数错误',            //错误message
+     *     'aData'      => NULL,
+     * ]
+     * ``````````````````
+     */
+    public function getList($aParam = [],$iPage = 1, $iPerPage = 10, $order = [], $iLastID = 0)
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+        Log::debug(__METHOD__ . ' params info:', [$aParam, $iPage, $iPerPage, $order]);
+        //表单验证
+        $aRule = [
+{{$validate}}
+        ];
+        try{
+            $this->validate($aParam, $aRule);
+            return $this->responseSuccess({{$bClassName}}::getList($aParam,$iPage,$iPerPage,$order,$iLastID));
+        }catch(ServiceException $e){
+            $this->log(__FUNCTION__, $e->getCode(), $e->getMessage(), ['aParam' => $aParam]);
+            return $this->responseError($e->getCode(), $e->getMessage());
+        }
+    }
+
+    /**
+     * 新增
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aRequest
+     * - 数组格式
+{{$fieldDesc}}
+     * @throws ServiceException
+     * @return int 88 新增成功的id
+     * ``````````````````
+     * 响应结果(成功):
+     * {
+     *      "hasError": false,
+     *      "success": true,
+     *      "error": "",
+     *      "status": 0,
+     *      "aData": 88
+     * }
+     * 响应结果(异常):
+     * {
+     *      "hasError": true,
+     *      "success": false,
+     *      "error": "数据保存失败",
+     *      "status": 0
+     * }
+     * ``````````````````
+     */
+    public function add($aRequest = [])
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+        Log::debug(__METHOD__ . ' params info:', [$aRequest]);
+        try {
+           //表单验证
+           $aField = [
+{{$validate}}
+           ];
+           $aFiledValue = $this->validate($aRequest, $aField);
+           //新增数据
+           $aResult = {{$bClassName}}::create($aFiledValue);
+           return $this->responseSuccess($aResult);
+        } catch (ServiceException $e) {
+            self::log(__METHOD__ . ' Exception', $e->getCode(), $e->getMessage(), []);
+            return $this->responseError($e->getCode(), $e->getMessage(), null);
+        }
+    }
+
+    /**
+     * 根据主键id获取详情
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param int $iAutoID 主键ID,必传
+     * @throws ServiceException
+     * @return array
+     * ``````````````````
+     * 响应结果(成功):
+     *[
+     *  'bSuccess' => true,
+     *  'aData' => [
+{{$listDesc}}
+     *      ]
+     * ]
+     * 响应结果(数据为空，即不存在):
+     * [
+     *  'bSuccess' => true              //业务是否正常(true:正常 false:异常)
+     *  'aData' => [
+     *
+     *   ],
+     * ]
+     * ``````````````````
+     */
+    public function detail($iAutoID)
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+        Log::debug(__METHOD__ . ' params info:', [$iAutoID]);
+        try{
+            $aFiled = [
+                'iAutoID' => 'numeric|min:1', //主键ID
+            ];
+            $aFiledVal = $this->validate(['iAutoID' => $iAutoID], $aFiled);
+            $aRet = {{$bClassName}}::getByID($aFiledVal['iAutoID']);
+            return $this->responseSuccess($aRet);
+         } catch (ServiceException $e) {
+            self::log(__METHOD__ . ' Exception', $e->getCode(), $e->getMessage(), []);
+            return $this->responseError($e->getCode(), $e->getMessage(), null);
+        }
+    }
+
+    /**
+     * 根据主键ids批量获取详情
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aIAutoID [主键ID1,主键ID2,主键ID3],必传
+     * @throws ServiceException
+     *
+     * @return array
+     * ``````````````````
+     * 响应结果(成功):
+     *[
+     *  'bSuccess' => true,
+     *  'aData' => [
+     *              [
+{{$listDesc}}
+     *               ],
+     *               ...
+     *      ]
+     * ]
+     * 响应结果(数据为空，即不存在):
+     * [
+     *  'bSuccess' => true              //业务是否正常(true:正常 false:异常)
+     *  'aData' => [
+     *
+     *   ],
+     * ]
+     * ``````````````````
+     */
+    public function getInfoByIDs($aRequest)
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+        try{
+            $aFiled = [
+                'aIAutoID' => 'required|array', //主键ID
+            ];
+            $aFiledValue = $this->validate($aRequest, $aFiled);
+            $aCondition['in']['iAutoID'] = $aFiledValue['aIAutoID'];
+            //获取数据
+            $aRet = {{$bClassName}}::getAll($aCondition);
+    
+            return $this->responseSuccess($aRet);
+         } catch (ServiceException $e) {
+            self::log(__METHOD__ . ' Exception', $e->getCode(), $e->getMessage(), []);
+            return $this->responseError($e->getCode(), $e->getMessage(), null);
+        }
+    }
+
+    /**
+     * 根据主键id编辑信息
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aRequest
+     * - 数组格式
+{{$fieldDesc}}
+     * @throws ServiceException
+     * @return int 编集信息的id
+     * ``````````````````
+     * 响应结果(成功):
+     * {
+     *      "hasError": false,
+     *      "success": true,
+     *      "error": "",
+     *      "status": 0,
+     *      "aData": 88
+     * }
+     * 响应结果(异常):
+     * {
+     *      "hasError": true,
+     *      "success": false,
+     *      "error": "数据保存失败",
+     *      "status": 0
+     * }
+     */
+    public function updateByID($aRequest)
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+        Log::debug(__METHOD__ . ' params info:', [$aRequest]);
+        //验证data字段,要填充的数据 默认验证全部字段
+        try {
+            if (empty($aRequest) || !is_array($aRequest)) {
+                return self::responseError(1, '参数格式错误');
+            }
+            $aField    = [
+{{$validate}}
+            ];
+            $aFiledValue = $this->validate($aRequest, $aField);
+    
+            //更新数据
+            $iResult = {{$bClassName}}::updateByID($aFiledValue);
+
+            return $this->responseSuccess($iResult);
+         } catch (ServiceException $e) {
+            self::log(__METHOD__ . ' Exception', $e->getCode(), $e->getMessage(), []);
+            return $this->responseError($e->getCode(), $e->getMessage(), null);
+        }
+
+    }
+
+    /**
+     * 根据主键id删除信息
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aRequest
+     * - 数组格式
+     * - int iAutoID 主键ID
+     *
+     * @throws ServiceException
+     * @return array
+     * ``````````````````
+     * 响应结果(成功):
+     * [
+     *  'bSuccess' => true,
+     *  'aData' => true
+     * ]
+     * ``````````````````
+     */
+    public function deleteByID($aRequest)
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+        Log::debug(__METHOD__ . ' params info:', [$aRequest]);
+        try {
+           $aFiled = [
+               'iAutoID'   => 'required|numeric',
+           ];
+           $aFiledValue = $this->validate($aRequest, $aFiled);
+           #删除
+           $result =  {{$bClassName}}::delete($aFiledValue['iAutoID']);
+           $aRet = $result ? true : false;
+           return $this->responseSuccess($aRet);
+         } catch (ServiceException $e) {
+            self::log(__METHOD__ . ' Exception', $e->getCode(), $e->getMessage(), []);
+            return $this->responseError($e->getCode(), $e->getMessage(), null);
+        }
+    }
+}

@@ -1,0 +1,30 @@
+<?php namespace App\Models{{$directory}};
+
+use League\Flysystem\Exception;
+use Paf\Estate\Database\Eloquent\Model;
+use Log;
+use DB;
+
+/*
+ * {{$filename}}的Model类
+ *
+ */
+class {{$filename}} extends Model
+{
+    use SoftDeletes;
+    //默认的链接DB数据库
+    protected $connection = '{{$dbname}}';
+    //表名
+    protected $table      = '{{$table}}';
+    //所有字段
+    protected $columns    = [
+        {{$columns}}
+    ];
+    //可填充字段
+    protected $fillable   = [
+        {{$fillable}}
+    ];
+
+    //设置删除时间字段
+    const DELETED_AT = null;
+}

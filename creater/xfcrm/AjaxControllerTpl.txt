@@ -1,0 +1,212 @@
+<?php
+namespace {{$nameSpace}};
+use App\Http\Controllers\V2_0\{{$directory}}\BaseController;
+use {{$bNameSpace}}\{{$bClassName}};
+use Illuminate\Http\Request;
+use App\Modules\SSOAuth as MSSOAuth;
+use Exception, WebException;
+use Log;
+
+/**
+ * #####提供接口列表如下（RPC方式调用）：
+ * ``````````````````
+ * 1.{{$sTableCommet}}获取列表      --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 2.{{$sTableCommet}}新增         --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * 3.{{$sTableCommet}}编辑         --负责人:{{$developer}}  计划完成时间:{{$developDay}}  状态:未完成
+ * ``````````````````
+ *
+ */
+
+class {{$className}} extends BaseController
+{
+
+    /**
+     * 获取列表
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * ___
+     * __页面地址__  {{$lowSubDir}}/ajax/{{$lowFile}}/lists
+     *
+     * __请求方式__  POST
+     *
+     * @param array $aRequest 请求参数
+{{$fieldDesc}}
+     *
+     * ``````````````````
+     *
+     * @return array
+     * @throws WebException
+     * ``````````````````
+     * 响应结果（成功情况）：
+     * {
+     *      'hasError' : false,
+     *      'success'  : true,
+     *      'error'    : '',
+     *      'status'   : 0 ,
+     *     'aData'      => [             //返回搜索的创说会用户列表数据
+     *          "iTotal": 0,            //总数
+     *          "iPage": 1,             //当前页数
+     *          "iPerPage": 20,         //分页条数
+     *          "aList": [              //列表数据
+     *              {
+{{$listDesc}}
+     *              },
+     *              ……
+     *          ]
+     *      ]
+     * }
+     * 响应结果（异常情况）：
+     * {
+     *      'hasError' : true,
+     *      'success'  : false,
+     *      'error'    : '',
+     *      'status'   : 0 ,
+     * }
+     * ``````````````````
+     *
+     */
+
+    public function lists(Request $aRequest)
+    {
+      return false;   //该方法默认关闭，如需使用删除该行即可
+      Log::debug(__METHOD__.'请求参数"',$aRequest);
+      try{
+            $aRule = [
+{{$validate}}
+            ];
+            //参数检测
+            $aField = $this->validate($aRequest, $aRule);
+            $iPage = $aFieldValue['iPage'];
+            $iPerPage = $aFieldValue['iPerPage'];
+
+            //格式化数据输出
+            $bRet = {{$bClassName}}::dowithList($aField);
+
+           return response()->ajax(['data' => $bRet]);
+       } catch (WebException $e) {
+            Log::error(__METHOD__.'异常:', 
+                         [
+                        'errCode' => $e->getCode(),
+                         'errMsg' => $e->getMessage()
+                         ]
+             );
+           return response()->exceptionAjax($e);
+       }
+    }
+
+   /**
+       * 新增
+       *
+       * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+
+       * __请求地址__ {{$lowSubDir}}/ajax/{{$lowFile}}/add
+       *
+       * __请求方式__  POST
+       *
+       * __请求参数__
+       * @param $oRequest
+       * - 数组参数
+{{$fieldDesc}}
+       * ``````````````````
+       *
+       * @return array
+       * @throws WebException
+       * ``````````````````
+       * 响应结果（成功情况）：
+       * {
+       *      'hasError' : false,
+       *      'success'  : true,
+       *      'error'    : '',
+       *      'status'   : 0 ,
+       *      'data' : true or false,  //true:审核成功  false:审核失败
+       * }
+       * 响应结果（异常情况）：
+       * {
+       *      'hasError' : true,
+       *      'success'  : false,
+       *      'error'    : '',
+       *      'status'   : 0 ,
+       * }
+       * ``````````````````
+       */
+      public function add(Request $aRequest)
+      {
+          Log::debug(__METHOD__.'请求参数"',$aRequest);
+          try {
+          $aRule = [
+{{$validate}}
+          ];
+              //参数检测
+              $aField = $this->validate($aRequest, $aRule);
+
+              $bRet = {{$bClassName}}::dowithAdd($aField);
+              return response()->ajax(['data' => $bRet]);
+          } catch (WebException $e) {
+            Log::error(__METHOD__.'异常:',
+                         [
+                        'errCode' => $e->getCode(),
+                         'errMsg' => $e->getMessage()
+                         ]
+             );
+              return response()->exceptionAjax($e);
+          }
+      }
+
+
+  /**
+    * 编辑
+    *
+    * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+    * __请求地址__ {{$lowSubDir}}/ajax/{{$lowFile}}/edit
+    *
+    * __请求方式__  POST
+    *
+    * __请求参数__
+    * @param $oRequest
+    * - 数组参数
+{{$fieldDesc}}
+    * ``````````````````
+    *
+    * @return array
+    * ``````````````````
+    * 响应结果（成功情况）：
+    * {
+    *      'hasError' : false,
+    *      'success'  : true,
+    *      'error'    : '',
+    *      'status'   : 0 ,
+    *      'data' : true or false,  //true:审核成功  false:审核失败
+    * }
+    * 响应结果（异常情况）：
+    * {
+    *      'hasError' : true,
+    *      'success'  : false,
+    *      'error'    : '',
+    *      'status'   : 0 ,
+    * }
+    * ``````````````````
+    */
+    public function edit(Request $aRequest)
+    {
+        Log::debug(__METHOD__.'请求参数"',$aRequest);
+        try {
+            $aRule = [
+{{$validate}}
+             ];
+            //参数检测
+            $aField = $this->validate($aRequest, $aRule);
+
+            $bRet = {{$bClassName}}::dowithEdit($aField);
+            return response()->ajax(['data' => $bRet]);
+        } catch (WebException $e) {
+            Log::error(__METHOD__.'异常:',
+                         [
+                        'errCode' => $e->getCode(),
+                         'errMsg' => $e->getMessage()
+                         ]
+             );
+            return response()->exceptionAjax($e);
+        }
+    }
+
+}

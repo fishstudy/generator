@@ -1,0 +1,13 @@
+<?php namespace {{$nameSpace}};
+
+use Estate\Exceptions\WebException;
+use App\Http\Controllers\V2_0\Controller;
+/**
+ * ### 本文件是BD渠道拓展基类
+ * [产品需求文档PRD](URL：)
+ * 接口文档地址(URL：)
+ */
+abstract class BaseController extends Controller
+{
+
+}

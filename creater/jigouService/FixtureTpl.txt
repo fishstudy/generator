@@ -1,0 +1,19 @@
+<?php
+
+    return [
+    '{{$dbname}}' => [
+       [
+{{$sInit}}
+        ],
+        [
+{{$sInit}}
+        ],
+        [
+{{$sInit}}
+        ],
+        [
+{{$sInit}}
+        ],
+    ]
+
+    ]

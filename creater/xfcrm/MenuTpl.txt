@@ -1,0 +1,26 @@
+<?php
+namespace App\Library\Enum\Menu;
+
+use App\Library\Enum\Enum;
+
+/*
+ * 金融相关常量
+ */
+class {{$className}}Enum extends Enum
+{
+    #菜单
+    //列表
+    const {{$upClassName}}_LIST = 0;
+
+    //新增
+    const {{$upClassName}}_ADD= 0; 
+    //编辑
+    const {{$upClassName}}_EDIT= 0; 
+    //详情
+    const {{$upClassName}}_DETAI= 0; 
+
+
+
+    #权限点
+
+}

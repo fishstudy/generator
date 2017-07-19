@@ -1,0 +1,16 @@
+<?php
+namespace {{$nameSpace}};
+
+use App\{{$service}}\Modules\Base as BaseBModel;
+
+/**
+* 业务模型 相当于logic 层
+*/
+class {{$className}} extends BaseBModel
+{
+    public static function demo()
+    {
+        //todo 添加业务处理代码
+        return true;
+    }
+}

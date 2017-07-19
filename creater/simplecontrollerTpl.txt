@@ -1,0 +1,15 @@
+<?php
+namespace {{$nameSpace}};
+
+use App\{{$service}}\Controllers\Base as baseRpc;
+
+class {{$className}} extends baseRpc
+{
+    public function demo($param)
+    {
+        $dataParam = (array)array_get($param, 'data', []);
+        //todo 添加业务处理代码
+
+        return self::responseData($dataParam);
+    }
+}

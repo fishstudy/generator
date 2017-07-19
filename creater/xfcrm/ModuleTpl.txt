@@ -1,0 +1,154 @@
+<?php namespace {{$bNameSpace}};
+use App\Modules\Services\JigouService;
+use App\Modules\Services\UserService;
+use App\Models\HftService;
+use App\Models\CommonService;
+use WebException;
+use Url;
+use Log;
+/*
+ * {{$filename}}的Model类
+ *
+ */
+class {{$bClassName}}
+{
+
+
+   /**
+     * 列表的逻辑处理方法
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @date {{$developDay}}
+     *
+     * @return array
+     *
+     */
+    public static function dowithList($aParam)
+    {
+        $aData = [];//请求对应的service的结果
+
+        return $aData;
+        
+    }
+
+    /**
+     * 新增的逻辑处理的方法
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @date {{$developDay}}
+     *
+     * @return array
+     *
+     */
+    public static function dowithAdd($aParam)
+    {
+        $aData = [];//请求对应的service的结果
+
+        return $aData;
+        
+    }
+
+    /**
+     * 新增的逻辑处理的方法
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @date {{$developDay}}
+     *
+     * @return array
+     *
+     */
+    public static function dowithEdit($aParam)
+    {
+        $aData = [];//请求对应的service的结果
+
+        return $aData;
+        
+    }
+
+     /**
+     * 列表 formDATA数据
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @date 2017-06-12
+     *
+     * @return array
+     *
+     */
+    public static function getListFormData()
+    {
+        $aData = [
+                    'aGlobalData' => [
+                                        'sTitle' => '',
+                                        'sKeyWords' => ''
+                        ]
+                ];
+        
+        return $aData;
+    }
+
+  /**
+     * 添加的 formDATA数据
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @date {{$developDay}}
+     *
+     * @return array
+     *
+     */
+    public static function getAddFormData()
+    {
+        $aData = [
+                    'aGlobalData' => [
+                                        'sTitle' => '',
+                                        'sKeyWords' => ''
+                        ]
+                ];
+
+        return $aData;
+    }
+
+
+  /**
+     * 编辑的 formDATA数据
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @date {{$developDay}}
+     *
+     * @return array
+     *
+     */
+    public static function getEditFormData()
+    {
+
+        $aData = [
+                    'aGlobalData' => [
+                                        'sTitle' => '',
+                                        'sKeyWords' => ''
+                        ]
+                ];
+
+        return $aData;
+    }
+
+    /**
+     * 详情的 formDATA数据
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @date {{$developDay}}
+     *
+     * @return array
+     *
+     */
+    public static function getDetailFormData()
+    {
+
+        $aData = [
+                    'aGlobalData' => [
+                                        'sTitle' => '',
+                                        'sKeyWords' => ''
+                        ]
+                ];
+
+        return $aData;
+    }
+}

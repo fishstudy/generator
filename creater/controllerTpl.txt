@@ -1,0 +1,147 @@
+<?php
+namespace {{$nameSpace}};
+
+use App\{{$service}}\Controllers\Base as baseRpc;
+use {{$bClassName}} as {{$bmodel}};
+use App\Util\Validate as MyValidate;
+
+class {{$className}} extends baseRpc
+{
+    /**
+     * 列表查询
+     * @param $aParams
+     * rpc调用传参示例：[
+            'page'      => 1,       //当前页
+            'per_page'  => 10,      //每页多少条
+            'last_id'   => 100,     //当前页最后一条数据的ID
+            'condition' => [       //查询条件
+                //可以使用的条件:'>', '<', '>=', '<=', '<>', '!=', 'like', where, in，notin, between, notbetween, or, orderby
+                'sRecommendMobile'  =>  '15262281953', //正常的where条件 sRecommendMobile = 15262281953
+                '<'                 =>  ['iLastLoginTime' => 14514717626], //代表iLastLoginTime < 14514717626
+                '<>'                =>  ['iUserID'=>47613, 'iLoginTimes' => 5],//代表iUserID <> 47613, iLoginTimes <> 5
+                'like'              => ['sName' => '%aaa'],//代表sName like %aaa；
+                'between'           =>  ['iPayCenterBid' => [1,10]],//代表 iPayCenterBid between 1 and 10
+                'notin'             =>  ['iCompanyID' => [1,2]],//代表 not in (1,2)
+                'or'                =>  ['sRecommendMobile' => '15262281953'],//代表 or sRecommendMobile = 15262281953
+                'orderby'           =>  ['iLastLoginTime' => 'desc'] //代表 order by iLastLoginTime desc
+             ],
+            'aOrder' => [           //排序
+                'iAutoId' => 'desc'
+             ]
+         ]
+     * @return array
+     */
+    public function getList($aCondition = [], $iPage = 1, $iPerPage = 10, $aOrder = [], $iLastID = 0)
+    {
+        $aResult = {{$bmodel}}::getList($aCondition, $iPage, $iPerPage, $aOrder, $iLastID);
+        return self::responseSuccess($aResult);
+    }
+
+    /**
+     * 新增数据
+     * @param $aParams rpc调用传参示例：['sName'=> 'test', 'iType' => 1]
+     *
+     * @return array
+     */
+    public function add($aParams = [])
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+
+        //表单验证 默认验证全部字段，如需使用请根据具体业务自行筛检填充
+        $aField    = [
+            {{$field}}
+        ];
+        $validate = MyValidate::checkAll($aParams, $aField, true);
+        if ($validate !== true) {
+            return self::responseError(1, $validate);
+        }
+
+        //新增数据
+        $aResult = {{$bmodel}}::create($aParams);
+        return $aResult ? self::responseSuccess($aResult) : self::responseError(2, '添加数据失败');
+    }
+
+    /**
+     * 根据主键查询单条信息
+     *
+     * @return array
+     */
+    public function getByID($iAutoID)
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+
+        //获取数据
+        $aResult = {{$bmodel}}::getByID($iAutoID);
+        return self::responseSuccess($aResult);
+    }
+
+    /**
+     * 更新数据
+     * @param $aParams rpc调用传参示例：(['iAutoId' => 10000], ['sName'=> 'test', 'iType' => 1])
+     *
+     * @return array
+     */
+    public function update($aCondition = [], $aParams = [])
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+
+        //必传参数检测
+        if (empty($aCondition) || empty($aParams) || !is_array($aCondition) || !is_array($aParams)) {
+            return self::responseError(1, '参数格式错误');
+        }
+        //data参数验证 默认验证全部字段，如需使用请根据具体业务自行筛检填充
+        $aField    = [
+            {{$field}}
+        ];
+        $validate = MyValidate::checkAll($aParams, $aField, true);
+        if ($validate !== true) {
+            return self::responseError(1, $validate);
+        }
+
+        //更新数据
+        $iResult = {{$bmodel}}::update($aParams['condition'], $aParams['data']);
+        return $iResult ? self::responseSuccess() : self::responseError(2, '更新失败');
+    }
+
+    /**
+     * 根据主键更新数据
+     * @param $aParams rpc调用传参示例：(10000, ['sName'=> 'test', 'iType' => 1])
+     *
+     * @return array
+     */
+    public function updateByID($iAutoID, $aParams = [])
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+
+        //验证data字段,要填充的数据 默认验证全部字段，如需使用请根据具体业务自行筛检填充
+        if (empty($aParams) || !is_array($aParams)) {
+            return self::responseError(1, '参数格式错误');
+        }
+        $aField    = [
+            {{$field}}
+        ];
+        $validate = MyValidate::checkAll($aParams, $aField, true);
+        if ($validate !== true) {
+            return self::responseError(1, $validate);
+        }
+
+        //更新数据
+        $iResult = {{$bmodel}}::updateByID($iAutoID, $aParams);
+        return $iResult ? self::responseSuccess() : self::responseError(2, '更新失败');
+
+    }
+
+    /**
+     * 删除单条数据
+     *
+     * @return array
+     */
+    public function deleteByID($iAutoID)
+    {
+        return false;   //该方法默认关闭，如需使用删除该行即可
+
+        //软删除
+        $iResult  = {{$bmodel}}::deleteByID($iAutoID);
+        return $iResult ? self::responseSuccess() : self::responseError(2, '删除失败');
+    }
+}

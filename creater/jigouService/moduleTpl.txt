@@ -1,0 +1,176 @@
+<?php
+namespace {{$moduleNameSpace}};
+
+use {{$modelNameSpace}} as {{$modelName}};
+use App\Jigou\Modules\Base;
+use ServiceException;
+use Log;
+use DB;
+
+/**
+* 业务模型 相当于logic 层
+*/
+class {{$moduleName}} extends Base
+{
+    /**
+     * 查询获取分页的数据(大数据分页，性能优化)
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aCondition 条件
+     * @param int $iPage 当前页
+     * @param int $iPerPage 每页多少条
+     * @param array $aOrder 主要排序条件
+     * @param int $iLastID 当前页最后一条数据的ID
+     * @return array
+     */
+    public static function getList($aCondition = [], $iPage = 1, $iPerPage = 10, $aOrder = [], $iLastID = 0)
+    {
+        return {{$modelName}}::spList($aCondition, $iPage, $iPerPage, $aOrder, $iLastID);
+    }
+
+    /**
+     * 获取单条数据，根据主键
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     * @param $id
+     *
+     * @return array
+     */
+    public static function getByID($id, $sFormat = 'FORMAT_ARRAY')
+    {
+        $oResult = {{$modelName}}::spGetByID($id);
+        if ($sFormat == 'FORMAT_OBJECT') {
+            return $oResult;
+        } else {
+            return $oResult ? $oResult->toArray() : [];
+        }
+    }
+
+    /**
+     * 获取单条数据，根据筛选条件
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aCondition
+     * @return array
+     */
+    public static function getOne($aCondition = [], $sFormat = 'FORMAT_ARRAY')
+    {
+        $oResult = {{$modelName}}::spGetOne($aCondition);
+        if ($sFormat == 'FORMAT_OBJECT') {
+            return $oResult;
+        } else {
+            return $oResult ? $oResult->toArray() : [];
+        }
+    }
+
+    /**
+     * 获取所有数据，根据筛选条件
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aCondition
+     * @return mixed
+     */
+    public static function getAll($aCondition = [], $sFormat = 'FORMAT_ARRAY')
+    {
+        $oResult = {{$modelName}}::spGetAll($aCondition);
+        if ($sFormat == 'FORMAT_OBJECT') {
+            return $oResult;
+        } else {
+            return $oResult ? $oResult->toArray() : [];
+        }
+    }
+
+    /**
+     * 获取条数，根据筛选条件
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aCondition
+     * @return int
+     */
+    public static function getCount($aCondition = [])
+    {
+        return {{$modelName}}::spGetCount($aCondition);
+    }
+
+    /**
+     * 添加数据
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aData
+     * @return array
+     */
+    public static function create($aData = [])
+    {
+        return {{$modelName}}::spCreate($aData);
+    }
+
+    /**
+     * 添加数据
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aData
+     * @return array
+     */
+    public static function add($aData = [])
+    {
+        return {{$modelName}}::spAdd($aData);
+    }
+
+    /**
+     * 单条数据更新，根据主键
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param $id
+     * @param array $aData
+     * @return bool|mixed
+     */
+    public static function updateByID($aData = [])
+    {
+        $id = $aData['iAutoID'];
+        unset($aData['iAutoID']);
+
+        if (empty($aData)) {
+            return false;
+        }
+
+        return {{$modelName}}::spUpdateByID($id, $aData);
+    }
+
+    /**
+     * 批量数据更新，根据where条件
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param array $aCondition
+     * @param array $aData
+     * @return bool
+     */
+    public static function update($aCondition = [], $aData = [])
+    {
+        if (empty($aCondition) || empty($aData)) {
+            return false;
+        }
+
+        return {{$modelName}}::spUpdate($aCondition, $aData);
+    }
+
+    /**
+     * 单条数据删除，根据主键
+     *
+     * @author {{$developer}} <{{$developeUM}}@sina.com.cn>
+     *
+     * @param $id
+     * @return bool
+     */
+    public static function deleteByID($id)
+    {
+        return {{$modelName}}::find($id)->delete()->trashed() ? true : false;
+    }
+}
