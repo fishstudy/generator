@@ -93,17 +93,9 @@ $aSystem['jigouService'] = [
                 <td>
                     <select name="developerSelect" id="developerSelect">
                         <option value="">请选择</option>
-                        <option value="dongyongsheng413">董永胜</option>
                         <option value="ex-wanjiangling213">万江铃</option>
                         <option value="sunwei741">孙伟</option>
-                        <option value="ex-raoyanpan162">饶炎盼</option>
-                        <option value="zhangzilin506">张子麟</option>
-                        <option value="ex-kezunlin001">柯尊林</option>
-                        <option value="huangjianxiang234">黄健翔</option>
-                        <option value="wangkewei775">王珂玮</option>
-                        <option value="qianlong790">钱龙</option>
                         <option value="yuxuefeng031">于雪锋</option>
-                        <option value="chengjinsheng718">程金盛</option>
                     </select>
                     <input name="developer" id="developer" type="hidden">
                     <input name="developeUM" id="developeUM" type="hidden">
@@ -139,9 +131,9 @@ $aSystem['jigouService'] = [
                 <td>
                     1：配置各个系统在本地的目录：<br>
                     $global_path = [<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;'hftService'=>'D:/pingan/hft-service',     &nbsp;&nbsp;&nbsp;&nbsp;#好房拓service<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;'xfcrm'=>'D:/pingan/xfcrm/backend',        &nbsp;&nbsp;&nbsp;&nbsp;#xfcrm 好房经济系统<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;'jigouService'=>'D:/pingan/jigou-service', &nbsp;&nbsp;#jigou-service<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;'hftService'=>'D:/webserver/hft-service',     &nbsp;&nbsp;&nbsp;&nbsp;#好房拓service<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;'xfcrm'=>'D:/webserver/xfcrm/backend',        &nbsp;&nbsp;&nbsp;&nbsp;#xfcrm 好房经济系统<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;'jigouService'=>'D:/webserver/jigou-service', &nbsp;&nbsp;#jigou-service<br>
                     ];
                 </td>
             </tr>
